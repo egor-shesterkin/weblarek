@@ -7,9 +7,8 @@ export class Basket {
     return this.productsInBasket;
   }
 
-  setProductInBasket(product: IProduct): IProduct | undefined {
+  setProductInBasket(product: IProduct): void {
     this.productsInBasket.push(product);
-    return product;
   }
 
   getProductInBasket(id: string): IProduct | undefined {

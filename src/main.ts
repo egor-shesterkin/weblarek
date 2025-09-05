@@ -6,14 +6,15 @@ import { StoreAPI } from './components/StoreAPI';
 import './scss/styles.scss';
 import { API_URL, CDN_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
+import { Api } from './components/base/Api';
 
 const productsModel = new Products();
 productsModel.setItems(apiProducts.items);
 
 const buyerModel = new Buyer();
 buyerModel.setBuyerData({
-    payment: 'card',
-    email: 'email',
+    // payment: 'card',
+    // email: 'email',
     phone: 'phone',
     address: 'address'
 });
@@ -23,25 +24,21 @@ const basketModel = new Basket();
 console.log(`Массив товаров из каталога: `, productsModel.getItems());
 console.log(`Товар из каталога по его id`, productsModel.getItemById('854cef69-976d-4c2a-a18c-2aa45046c390'));
 
-productsModel.setItem({
-    id: "new",
-    description: "нужный товар",
-    image: "",
-    title: "новый товар",
-    category: "софт-скил",
-    price: 777
-});
+productsModel.setItem(apiProducts.items[1]);
 
 console.log(`Товар для подробного отображения`, productsModel.getItem());
 
-const api = new StoreAPI(CDN_URL, API_URL);
-const productsFromServer: IProduct[] = await api.getProductList();
-productsModel.setItems(productsFromServer);
+const api = new Api(API_URL);
+const storeAPI = new StoreAPI(CDN_URL, api);
 
-console.log(`Товары с сервера: `, productsModel.getItems());
+storeAPI.getProductList()
+    .then((data => {
+        console.log(`Товары с сервера: `, data);
+        productsModel.setItems(data);
+        console.log(`Массив товаров в моделе, полученных с сервера: `, productsModel.getItems())
+    }));
 
-
-api.buyProducts({
+storeAPI.buyProducts({
     "payment": "card",
     "email": "test@test.ru",
     "phone": "+71234567890",
@@ -55,48 +52,21 @@ api.buyProducts({
 
 console.log(`Данные покупателя`, buyerModel.getBuyerData());
 
-buyerModel.validateBuyerData({
-    payment: '',
-    email: 'email',
-    phone: 'phone',
-    address: 'address'
-});
+console.log(`Валидация данных покупателя`, buyerModel.validateBuyerData());
 
 buyerModel.clearBuyerData();
 console.log(`Данные покупателя очищены`, buyerModel.getBuyerData());
 
-console.log(`Добавить товар в корзину`, basketModel.setProductInBasket({
-    id: "test1",
-    description: "",
-    image: "",
-    title: "",
-    category: "",
-    price: null
-}));
-console.log(`Добавить товар в корзину`, basketModel.setProductInBasket({
-    id: "test2",
-    description: "",
-    image: "",
-    title: "",
-    category: "",
-    price: 324
-}));
-
-console.log(`Добавить товар в корзину`, basketModel.setProductInBasket({
-    id: "test3",
-    description: "",
-    image: "",
-    title: "",
-    category: "",
-    price: 10
-}));
+basketModel.setProductInBasket(apiProducts.items[0]);
+basketModel.setProductInBasket(apiProducts.items[1]);
+basketModel.setProductInBasket(apiProducts.items[2]);
 
 console.log(`Товары в корзине`, basketModel.getProductsInBasket());
 console.log(`Стоимость всех товаров в корзине`, basketModel.getCostOfProductsInBasket());
 console.log(`Количество товаров в корзине`, basketModel.getNumberOfProductsInBasket());
-console.log(`Наличие товара в корзине`, basketModel.getProductInBasket('test2'));
+console.log(`Наличие товара в корзине`, basketModel.getProductInBasket('c101ab44-ed99-4a54-990d-47aa2bb4e7d9'));
 
-basketModel.clearProductInBasket('test2');
+basketModel.clearProductInBasket('c101ab44-ed99-4a54-990d-47aa2bb4e7d9');
 console.log(`Товар удалён из корзины`, basketModel.getProductsInBasket());
 
 

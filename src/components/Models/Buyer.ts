@@ -1,16 +1,16 @@
-import { IBuyer, TPayment } from "../../types";
+import { IBuyer, IBuyerValidate, TPayment } from "../../types";
 
 export class Buyer {
-  private payment: TPayment = '';
-  private email: string = '';
-  private phone: string = '';
-  private address: string = '';
+  private payment?: TPayment = '';
+  private email?: string = '';
+  private phone?: string = '';
+  private address?: string = '';
 
   setBuyerData(buyer: IBuyer): void {
-    this.payment = buyer.payment;
-    this.email = buyer.email;
-    this.phone = buyer.phone;
-    this.address = buyer.address;
+    this.payment = buyer.payment ?? '';
+    this.email = buyer.email ?? '';;
+    this.phone = buyer.phone ?? '';;
+    this.address = buyer.address ?? '';; 
   }
 
   getBuyerData(): IBuyer {
@@ -24,22 +24,12 @@ export class Buyer {
     this.address = '';
   }
   
-  validateBuyerData(buyer: IBuyer): void {
-    if (buyer.payment !== 'cash' && buyer.payment !== 'card') {
-      console.log('Ошибка валидации: Неверный способ оплаты');
-    }
+  validateBuyerData(): IBuyerValidate {
 
-    if (buyer.address === '') {
-      console.log('Ошибка валидации: Не указан адрес');
-    }
-
-    if (buyer.email === '') {
-      console.log('Ошибка валидации: Не указан email');
-    }
-
-    if (buyer.phone === '') {
-      console.log('Ошибка валидации: Не указан телефон');
-    }
+    return {payment: this.payment? '' : 'Неверный способ оплаты', 
+            email: this.email? '' : 'Не указан email', 
+            phone: this.phone? '' : 'Не указан телефон', 
+            address: this.address? '' : 'Не указан адрес'};
 
   }
 }

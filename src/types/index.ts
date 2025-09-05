@@ -17,10 +17,14 @@ export interface IProduct {
 }
 
 export interface IBuyer {
-    payment: TPayment;
-    email: string;
-    phone: string;
-    address: string;
+    payment?: TPayment;
+    email?: string;
+    phone?: string;
+    address?: string;
+}
+
+export interface IBuyerValidate extends Omit<IBuyer, 'payment'> {
+    payment?: string;
 }
 
 export type ApiProductListResponse<Type> = {
@@ -40,9 +44,4 @@ export type ApiOrderRequest = {
 export type ApiOrderResponse = {
     id: string;
     total: number;
-}
-
-export interface IStoreAPI {
-    getProductList: () => Promise<IProduct[]>;
-    buyProducts: (buyer: ApiOrderRequest) => Promise<ApiOrderResponse>;
 }
