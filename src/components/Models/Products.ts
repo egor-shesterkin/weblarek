@@ -1,4 +1,6 @@
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
+import { settings } from '../../utils/constants';
 
 export class Products {
   private items: IProduct[] = [];
@@ -11,8 +13,13 @@ export class Products {
     price: null
   };
 
+  constructor(protected events: IEvents) {
+    
+  }
+
   setItems(items: IProduct[]): void {
     this.items = items;
+    this.events.emit(settings.catalogChanged);
   }
 
   getItems(): IProduct[] {

@@ -1,7 +1,13 @@
+import { settings } from '../../utils/constants';
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Basket {
   private productsInBasket: IProduct[] = [];
+
+  constructor(protected events: IEvents) {
+
+  }
 
   getProductsInBasket(): IProduct[] {
     return this.productsInBasket;
@@ -9,6 +15,8 @@ export class Basket {
 
   setProductInBasket(product: IProduct): void {
     this.productsInBasket.push(product);
+    this.events.emit(settings.basketChanged);
+    this.events.emit(settings.cardChanged, product);
   }
 
   getProductInBasket(id: string): IProduct | undefined {
@@ -17,10 +25,13 @@ export class Basket {
 
   clearProductInBasket(id: string): void {
     this.productsInBasket = this.productsInBasket.filter(product => product.id !== id);
+    this.events.emit(settings.cardChanged, { item: id });
+    this.events.emit(settings.basketChanged);
   }
 
   clearBasket(): void {
     this.productsInBasket = [];
+    this.events.emit(settings.basketChanged);
   }
 
   getCostOfProductsInBasket(): number {

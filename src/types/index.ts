@@ -33,10 +33,10 @@ export type ApiProductListResponse<Type> = {
 };
 
 export type ApiOrderRequest = {
-    payment: TPayment;
-    email: string;
-    phone: string;
-    address: string;
+    payment?: TPayment;
+    email?: string;
+    phone?: string;
+    address?: string;
     total: number,
     items: string[]
 }
