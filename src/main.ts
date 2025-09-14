@@ -29,7 +29,7 @@ const orderFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
 const headerContainer = ensureElement<HTMLElement>('.header');
-const page__wrapper = ensureElement<HTMLElement>('.page__wrapper');
+const pageWrapper = ensureElement<HTMLElement>('.page__wrapper');
 const events = new EventEmitter();
 const header = new Header(events, headerContainer);
 
@@ -92,7 +92,7 @@ events.on(settings.cardSelect, (item: IProduct) => {
         modal.render({ content: card.render(product) });
     }
 
-    page__wrapper.classList.add('page__wrapper_locked');
+    pageWrapper.classList.add('page__wrapper_locked');
 });
 
 //закрываем модальное окно при получении события и разблокируем прокрутку страницы
@@ -106,7 +106,7 @@ events.on(settings.modalClose, () => {
         category: "",
         price: null
     });
-    page__wrapper.classList.remove('page__wrapper_locked');
+    pageWrapper.classList.remove('page__wrapper_locked');
 });
 
 const basketView = new BasketView(cloneTemplate(basketTemplate), events);
@@ -123,7 +123,7 @@ events.on(settings.basketOpen, () => {
     });
 
     modal.render({ content: basketView.render({ items: basketCards, total: totalCost }) });
-    page__wrapper.classList.add('page__wrapper_locked');
+    pageWrapper.classList.add('page__wrapper_locked');
 });
 
 // Добавить товар в корзину

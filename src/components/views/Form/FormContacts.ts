@@ -40,20 +40,10 @@ export class FormContacts extends Form<IFormContacts> {
   }
 
   set email(value: string) {
-    if (value !== '') {
-      this.emailElement.textContent = value;
-    }
-    else {
-      this.emailElement.value = '';
-    }
+    this.emailElement.value = value;
   }
 
   set phone(value: string) {
-    if (value !== '') {
-      this.phoneElement.textContent = value;
-    }
-    else {
-      this.phoneElement.value = '';
-    }
+    this.phoneElement.value = value;
   }
 }

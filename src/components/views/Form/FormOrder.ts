@@ -45,12 +45,7 @@ export class FormOrder extends Form<IFormOrder> {
   }
 
   set address(value: string) {
-    if (value !== '') {
-      this.addressElement.textContent = value;
-    }
-    else {
-      this.addressElement.value = '';
-    }
+    this.addressElement.value = value;
   }
 
   set payment(value: TPayment) {
